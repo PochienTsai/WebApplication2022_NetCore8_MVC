@@ -1,0 +1,49 @@
+﻿@model WebApplication2022_NetCore8_MVC.Models.Class1
+
+@*
+    // 檢視畫面上的第一列（model）與 Model，有何不同？？
+    // @Model is "a property of the view" that refers to the model that was passed to the view from the controller.
+    // This property is strongly typed based on the data type specified in the @model directive at the top of the view.
+    // ***  @model occurs "only once" and specifies the "data type" of the model.
+    // ***  @Model allows you to reference "the value for the model" passed to the view.
+*@
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index4 - 第一次搭配類別檔</title>
+</head>
+<body>
+    <div>
+        Index4 - 第一次搭配類別檔 ( / Models/Class1.cs檔)
+
+
+        <br /><br /><br />
+        @*  VS2022 這裡有些變化  https://docs.microsoft.com/zh-tw/dotnet/csharp/nullable-references
+
+         未將 ? 附加至類型名稱的任何變數都是 "不可為 null 的參考型別"。 當您啟用這項功能時，其中包含現有程式碼中的所有參考型別變數。 
+         不過， (使用) 宣告的任何隱含類型區域變數 var 都是 可為 null 的參考型別。 如上一節所示，靜態分析會判斷區域變數的 null 狀態 ，
+         以判斷它們是否可能是 null。
+
+          有時候，當您知道變數不是 null 時，您必須覆寫警告，但編譯器會判斷其 null 狀態**可能是-null。 您可以在變數名稱後面使用 null 容許運算子 ! ，
+          強制 null 狀態**不是null。 例如，如果您知道 name 變數不是 null ，但編譯器發出警告，您可以撰寫下列程式碼來覆寫編譯器的分析：
+        *@
+
+
+        <h3> @Model!.UserName </h3>
+        <!--  我自己的說法：
+        我要從上面第一列宣告的 model裡面（也就是Class1類別），取得「.UserName屬性」的值。
+        如果您確定在取得數值的時候，這一定不是空值（null）。可以加上驚嘆號（!）。
+        如果不加上驚嘆號（!），系統會警告您：可能取得一個空值（null）。
+        https://www.cnblogs.com/stulzq/p/14085008.html
+        https://learn.microsoft.com/zh-tw/archive/msdn-magazine/2018/february/essential-net-csharp-8-0-and-nullable-reference-types -->
+
+    </div>
+</body>
+</html>

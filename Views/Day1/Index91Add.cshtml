@@ -1,0 +1,65 @@
+﻿@* 
+    @using Microsoft.AspNetCore.Http;
+ ********************************  *@
+
+@{
+    Layout = null;
+
+    var result = "";
+    var num = 10;
+
+    if (Context.Request.ContentLength > 0)      // 參考資料 http://www.cftea.com/c/2020/08/12958.asp
+    {   // PostBack（回傳）
+        result = "按下Submit按鈕。送出之後......";
+
+        //if (!IsPost)   // 註：ASP.NET Core沒有這種方法
+        //{   // 第一次執行。
+        //    result = "網頁「第一次」執行。";
+        //}
+        //else
+        //{   // PostBack（回傳）
+        //    result = "按下Submit按鈕。送出之後......";
+
+        //    if (Context.Request.Form["TextBox1"].IsInt())  // 註：ASP.NET Core沒有 .IsInt()這種方法
+        //    {  // 請看後續的範例（Day2控制器底下，動作 Index10BeginForm()）
+        num = Convert.ToInt32(Context.Request.Form["TextBox1"].ToString());    // 將輸入的字串轉成整數  // 註：ASP.NET Core沒有 .AsInt();  這種方法 
+        num = (num * 10);
+        @: 答案是 <font color="red"> @num </font><br />
+        @: 輸出「貨幣格式」： <font color="red"> @String.Format("{0:C}", @num)  </font><br /><br /><br />
+    }
+    // else
+    // {
+    //     result = "Sorry！～您輸入是" + Context.Request.Form["TextBox1"].ToString() + "，只能輸入整數。";
+    // }
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index91Add - 傳統HTML表單</title>
+</head>
+<body>
+    <div>
+        輸入值，乘以十<br /><br /><br />
+
+        傳統HTML表單：<br />
+        <form method="POST" action="">
+            請輸入 1~20之間的數字（整數）：<input type="text" name="TextBox1" value="10" required />
+
+            <input type="Submit" name="Submit" value="Submit 送出" />
+        </form>
+
+
+        <br />
+        *************************************<br />
+        <h3><font color="red"> @result </font></h3>
+
+        <br /><br />
+        下一個範例（Day2控制器，Index10BeginForm動作）會由此範例修改，學習 HTML Helper。
+
+    </div>
+</body>
+</html>

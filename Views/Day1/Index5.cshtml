@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebApplication2022_NetCore8_MVC.Models.Class1>
+@*
+    // 檢視畫面上的第一列（model）與 Model，有何不同？？
+    // @model is "a property of the view" that refers to the model that was passed to the view from the controller.
+    // This property is strongly typed based on the data type specified in the @model directive at the top of the view.
+    // ***  @model occurs "only once" and specifies the "data type" of the model.
+    // ***  Model allows you to reference "the value for the model" passed to the view.
+
+
+        // 文章說明： When To Use IEnumerable, ICollection, IList And List（文章後面有一張圖）
+        // http://www.claudiobernasconi.ch/2013/07/22/when-to-use-ienumerable-icollection-ilist-and-list/
+
+        //  IEnumerable -- 只用於「唯讀」的資料展示。
+        //  ICollection -- 您想修改集合或關心其大小(size)。
+        //  IList -- 您想要修改集合，並關心集合中元素的排序和/或位置。
+*@
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index5 - 第一次搭配類別檔 #2</title>
+</head>
+<body>
+
+    Index5 - 第一次搭配類別檔 #2 ( / Models/Class1.cs檔)
+    <br /><br />
+
+    <table class="table" border="1">
+        <tr>
+            <th>
+                <!-- 註解：標題欄位。也就是類別 Class1的「屬性名稱」  -->
+                @Html.DisplayNameFor(m => m.UserName)
+                <!-- 為了避免造成混淆，您可以把這裡的 model字樣 改成 m 或是 x 都可以。 -->
+            </th>
+        </tr>
+        @*   如果您知道 name 變數不是 null ，但編譯器發出警告，您可以撰寫下列程式碼來覆寫編譯器的分析  --  Model!  *@
+        @foreach (var item in Model!)
+        {
+            <tr>
+                <td>
+                    <!-- 註解：內容欄位。也就是類別 Class1裡面，屬性的「值」  -->
+                    @Html.DisplayFor(modelitem => item.UserName)
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>

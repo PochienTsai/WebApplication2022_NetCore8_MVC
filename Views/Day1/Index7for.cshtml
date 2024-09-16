@@ -1,0 +1,105 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index7for - for & foreach迴圈</title>
+</head>
+<body>
+    <div>
+        <!-- https://learn.microsoft.com/zh-tw/dotnet/csharp/language-reference/statements/iteration-statements -->
+        <h3>for 迴圈</h3>
+        <hr /><br />
+
+        @for (var i = 9; i < 18; i++)
+        {
+             <font style="font-size: @(i + "pt")">字體大小 font-size： @i pt</font> <br />
+            // 寫成這樣也行  <font style="font-size: @i pt">字體大小 font-size： @i pt</font> <br />
+        }
+
+
+        <br /><br /><br />
+        <h3>foreach迴圈</h3>
+        <hr /><br />
+        @{
+            string[] weekDays = new string[] {"Sun週日", "Mon週一", "Tue週二", "Wed週三", "Thu週四", "Fri週五", "Sat週六"};
+            // 電腦從 "零"算起，陣列 Array也是
+            // 第一個陣列的元素 weekDays[0] 就是 "Sun週日"
+
+            int j = 0;
+        }
+        <ul>
+            @foreach (var day in weekDays)       
+            {
+                // string str = "每週的第" + (j+1) +  "天是" + day;
+                <li>傳統寫法 - 
+                    @String.Format("每週的第{0}天是{1}" , (j+1), day) </li>
+                    //                                 {0}參數一    {1}參數二
+
+                // C# 6.0 字串插補 , 字串插值。 String interpolation
+                // https://learn.microsoft.com/zh-tw/dotnet/csharp/language-reference/tokens/interpolated
+                string strinterpo = $"每週的第 {j + 1} 天是 {day} ";
+                //                                  直接寫「變數名稱」，更直覺、簡單！
+                <li>字串插補 - <font color="red"> @strinterpo </font></li>
+
+                j++;
+                // 如果您對陣列（Array）有興趣，可以繼續參考補充範例 - Index92Array檢視畫面
+            }            
+        </ul>
+
+
+
+        <hr /><br /><br />
+
+        <h3>String.Format()方法</h3>        <hr />
+        @{
+            // 自訂日期與時間格式字串 https://learn.microsoft.com/zh-tw/dotnet/standard/base-types/custom-date-and-time-format-strings
+            string strDateNow = DateTime.Now.ToString();
+
+            @: DateTime.Now.ToString()的結果 @strDateNow <br />
+            @String.Format("String.Format()的結果** - {0}", strDateNow) <br />
+            <hr />
+            @String.Format("String.Format()的結果 - {0:d}", strDateNow) <br />
+            @String.Format("String.Format()的結果** - {0:d}", DateTime.Now) <br />
+            @String.Format("String.Format()的結果 - {0:d}", DateTime.Now.ToLongDateString()) <br />
+            @String.Format("String.Format()的結果 - {0:d}", DateTime.Now.ToShortDateString()) <br />
+            <hr />
+            @String.Format("String.Format()的結果 - {0:yyyy/MM/dd}", strDateNow) <br />
+            @String.Format("String.Format()的結果** - {0:yyyy/MM/dd}", DateTime.Now) <br />
+            @String.Format("String.Format()的結果 - {0:yyyy/MM/dd}", DateTime.Now.ToLongDateString()) <br />
+            @String.Format("String.Format()的結果 - {0:yyyy/MM/dd}", DateTime.Now.ToShortDateString()) <br />
+            <hr />
+            @String.Format("String.Format()的結果 - {0:yy/M/d}", strDateNow) <br />
+            @String.Format("String.Format()的結果** - {0:yy/M/d}", DateTime.Now) <br />
+            @String.Format("String.Format()的結果 - {0:yy/M/d}", DateTime.Now.ToLongDateString()) <br />
+            @String.Format("String.Format()的結果 - {0:yy/M/d}", DateTime.Now.ToShortDateString()) <br />
+            <hr />
+            @String.Format("String.Format()的結果** - {0:yyyy/MM/dd hh:mm:ss}",  DateTime.Now) <br />
+            @String.Format("String.Format()的結果** - {0:yyyy/M/d h:m:s}",  DateTime.Now) <br />
+
+            // 自訂數值格式字串 https://learn.microsoft.com/zh-tw/dotnet/standard/base-types/custom-numeric-format-strings
+        }
+
+
+            
+
+
+        <br /><br /><br />
+        <h3>Request.ServerVariables</h3>
+        <hr /><br />
+        <ul>
+            @* @foreach (var myItem in Context.Request.ServerVariables)       // 註：ASP.NET Core沒有這種方法 
+            {
+                 <li>@myItem</li>
+            }
+            *@
+        </ul>
+
+    </div>
+</body>
+</html>

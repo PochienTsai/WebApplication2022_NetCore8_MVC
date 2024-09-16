@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebApplication2022_NetCore8_MVC.Models.Class1>
+@*
+    // 註解：請問 model與 Model兩個字（除了大小寫不同）有何差異？？
+    // @Model is "a property of the view" that refers to the model that was passed to the view from the controller.
+    // This property is strongly typed based on the data type specified in the @model directive at the top of the view.
+    // ***  @model occurs "only once" and specifies the "data type" of the model.
+    // ***  @Model allows you to reference "the value for the model" passed to the view.
+*@
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index12List</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New（新增一筆數據）", "Index12Create")
+    </p>
+
+    <table class="table" border="1">
+        <tr>   <!-- 屬性名稱 -->
+            <th> @Html.DisplayNameFor(model => model.UserName) </th>
+        </tr>
+
+        @foreach (var item in Model)    // 這裡的Model 跟最上方第一列的 model，有何不同？？
+        {
+            <tr>
+                <td>
+                    (1) HTML.Raw()方法： &nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.Raw(item.UserName) <br />   <!-- 可以呈現HTML標籤 -->
+                    <!--  下面寫法也行。 -->
+                    @*  (1) MvcHtmlString.Create()方法： &nbsp;&nbsp;&nbsp;&nbsp;
+                        @MvcHtmlString.Create(item.UserName) <br />   <!-- 可以呈現HTML標籤 --> *@
+
+
+                    (2) HTML.DisplayFor()方法： &nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.DisplayFor(modeitem => item.UserName)
+                    <!-- 預設情況下，會自動進行 HTML編碼。無法呈現HTML效果。 -->
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>

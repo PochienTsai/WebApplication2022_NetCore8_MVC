@@ -1,0 +1,60 @@
+﻿@model WebApplication2022_NetCore8_MVC.Models.UserTable
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>UserTable</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserSex)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserSex)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserBirthDay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserBirthDay)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserMobilePhone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserMobilePhone)
+        </dd>
+    </dl>
+    
+    <!-- ***************************************************  -->
+    <!-- 產生的HTML表單，裡面沒有 _ID。所以預設的檢視畫面，無法刪除。 <form action="/Home/Delete" method="post">   -->
+    <form asp-action="Delete">
+
+        <input type="hidden" name="_ID" value=@Html.DisplayFor(model => model.UserId) />
+        <!-- [解法一] 自己補上 type="hidden"                     ****************
+                      重點是 name="_ID" 必須對應 "第二個" Action -- DeleteConfirm 的輸入參數名稱 _ID    -->
+        <!-- [解法二] 務必搭配路由（Route）設定才能生效。 <form action="/Day3/Delete/23" method="post">   -->
+
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="List">Back to List</a>
+    </form>
+    <!-- ***************************************************  -->
+
+</div>

@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Index8";
+    Layout = "~/Views/Shared/_LayoutPage2.cshtml";
+}
+
+<!--  頁面的 (Body)主要內容 -->
+<h2>Index8 - 版面配置頁，加上 Header 與 Footer</h2>
+自己設定的「版面配置頁」，檔案位於 ~/Views/Shared/_LayoutPage2.cshtml
+
+<p>******您好！這裡是頁面的主要內容！******</p>
+<p>******您好！這裡是頁面的主要內容！******</p>
+<p>******您好！這裡是頁面的主要內容！******</p>
+<p>******您好！這裡是頁面的主要內容！******</p>
+<p>******您好！這裡是頁面的主要內容！******</p>
+
+
+@section Header {
+    <font color="blue">這裡是Header區段</font>
+     <nav>
+        <ul>
+            <li><a href="請放您的超連結URL網址">首頁（HomePage）</a></li>
+            <li><a href="請放您的超連結URL網址">聯絡方式（Contact Me）</a></li>
+            <li><a href="請放您的超連結URL網址">關於我（About Me）</a></li>
+        </ul>
+    </nav>
+    <hr /><br />
+    }
+
+
+@section Footer {
+    <br /><br />
+    <hr />
+        <font color="green">這裡是Footer區段</font>
+        <h3 align="center"> ASP.NET Core 6.0~8.0 [MVC] 學習網站 - 2023年 - MIS2000 Lab.</h3>
+    <hr />
+}

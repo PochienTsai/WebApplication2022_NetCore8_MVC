@@ -1,0 +1,170 @@
+﻿@using Microsoft.AspNetCore.Http;
+@*  ********************************  *@
+
+@{
+    Layout = null;
+}
+
+@*  這是 Razor的註解（網頁經過 Web Server編譯以後，使用者在瀏覽器上 "看不見"這句註解！）  *@
+<!-- 這是 HTML的註解。 執行後，使用者的瀏覽器仍可看見這段註解文字。 -->
+
+
+@{
+    string nowDT = DateTime.Now.ToLongDateString();
+    // C#註解：宣告與設定變數的初始值。後面記得要加上「分號（;）」
+    @* Razor註解：宣告與設定變數的初始值。後面記得要加上「分號（;）」 *@
+
+    string str = "今天日期(2)：" + DateTime.Now.ToShortDateString() + "（字串相連的寫法，透過 + 符號）";
+    // C#註解：字串與變數相連，C#語法請用 + 符號。
+    @* Razor註解：字串與變數相連，C#語法請用 + 符號 *@
+
+    @:寫在 { }  裡面的變數： <font color="red">@nowDT</font>
+    @* Razor註解：取得 nowDT變數的「數值」，後面不需要加上分號（;） *@
+    @* Razor註解：這區域的輸出值，會出現在網頁最上方。<html>標籤上方 *@
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index6 - 簡易的入門，Razor寫法</title>
+
+    <!-- *** 註解：前端網頁的語法，如JavaScript、jQuery ***************************** -->
+    <script type="text/javascript">
+        window.alert("Hello! The World");
+    </script>
+
+</head>
+<body>
+    <div>
+        <br /><br /><br /><br />
+        <h3>簡易的入門，Razor寫法</h3><hr />
+        <br />
+
+        今天日期(1) - 短日期：@DateTime.Now.ToShortDateString()  <br />
+        今天日期(1) - 長日期：@DateTime.Now.ToLongDateString()  <br />
+
+        @str
+        @* 註解：取得數值，後面不需要加上分號（;） *@
+        <hr /><br /><br />
+
+
+        輸出日期#1：@nowDT 或是寫成  @(nowDT)               <br /><br />
+        <!-- HTML註解：取得 nowDT變數的「數值」 -->
+        @* 註解：變數nowDT在頁面上方已經宣告了 *@
+
+        輸出日期#2：@nowDT<text>是一個好日子</text>    <br />
+        @* 註解：請勿寫成這種 錯誤寫法，變數與字串之間，沒有「空白」區隔，連在一起。
+        錯誤寫法    @nowDT是一個好日子 *@
+
+        輸出日期#2（正確版）：@nowDT 是一個好日子    <br /><br />
+        @* 註解：變數與字串之間，使用「空白」區隔，不能連在一起。 *@
+
+        輸出日期#3：今天是@(nowDT)天氣晴                         <br /><br />
+
+        輸出日期#4：今天是<text>@nowDT</text>天氣晴
+        @* 註解：請勿寫成這種 錯誤寫法
+        錯誤寫法    今天是@nowDT天氣晴 *@
+        @* 註解：錯誤寫法，變數與字串之間，沒有「空白」區隔，連在一起。*@
+        
+
+        <br /><br /><br /><br />
+
+        輸出＠符號：@@ <br /><br />
+        @* 註解：連續打兩個＠符號，就能輸出＠到畫面上。
+        類似C＃語法的  \\ 可以輸出 \ 符號 *@
+
+        輸出＠符號（E-Mail）：mis2000lab@@yahoo.com.tw   <hr /><br /><br />
+
+
+        <!--  if、if-else 和 switch    https://learn.microsoft.com/zh-tw/dotnet/csharp/language-reference/statements/selection-statements  -->
+        輸出文字#1：
+        @if (ViewData.IsReadOnly)
+        {
+            await Context.Response.WriteAsync("Response.Write()輸出：唯讀 - ReadOnly <br />");
+            @* Response.Write("Response.Write()輸出：唯讀 - ReadOnly <br />");    // 註：ASP.NET Core沒有這種方法 *@            
+            @* 註解：Response.Write()會輸出在網頁最上方。<html>標籤上方 *@
+            @:唯讀 - ReadOnly<br />
+        }
+        else
+        {
+            await Context.Response.WriteAsync("Response.Write()輸出：並非唯讀 - Not ReadOnly <br />");
+            @* Response.Write("Response.Write()輸出：並非唯讀 - Not ReadOnly <br />");    // 註：ASP.NET Core沒有這種方法 *@
+            @:並非唯讀 - Not ReadOnly<br />
+        }
+
+        <br />
+        輸出文字#2：@(ViewData.IsReadOnly ? "唯讀 - ReadOnly<br />" : "並非唯讀 - Not ReadOnly")
+        @* 註解：跟上一段 if 程式相同，此為縮寫 *@
+
+
+        <br /><br />
+        @*  輸出文字#3：.IsInt()能否轉成整數？@("10000".IsInt())    // 註：ASP.NET Core沒有這種方法 *@
+        @* 註解：執行成果 True *@
+
+        <br />
+        @* 輸出文字#4：@("10000".AsInt())    // 註：ASP.NET Core沒有這種方法 *@
+        @* 註解：執行成果 10000 *@
+
+
+        <br />  
+        <!--  Convert.ToXXX()方法 https://learn.microsoft.com/zh-tw/dotnet/api/system.convert?view=net-7.0 -->
+        
+        輸出文字#5：@(Convert.ToInt32("10000"))
+        @* 註解：執行成果 10000 *@
+
+        <br />  <!--  2023年 新增範例 (輸出文字#5A) -->
+        @{
+            double dNumber = 23.15;
+
+            // try...catch...用來捕捉(catch) 程式執行中的 例外狀況(Exception)
+            try {
+                // 傳回的答案是 23
+                int iNumber = Convert.ToInt32(dNumber);
+                @:輸出#5A：轉換成功。答案是 @dNumber
+                //                                                 ^^^^^^^^ 註解：這句程式碼後面不需分號（;） *@
+            }
+            catch (System.OverflowException) {
+                @:輸出#5A：Overflow in double to int conversion.（轉換失敗）
+                // 如果 try區塊裡面的程式執行失敗，就會跳到 catch這一區（捕捉catch , 例外狀況Exception ）
+            }
+        }
+
+
+        <br />  <!--  2023年 新增範例 (輸出文字#5B) -->
+        @{
+            // 轉型和類型轉換  https://learn.microsoft.com/zh-tw/dotnet/csharp/programming-guide/types/casting-and-type-conversions
+            // 如何將字串轉換為數值 (C# 程式設計手冊) https://learn.microsoft.com/zh-tw/dotnet/csharp/programming-guide/types/how-to-convert-a-string-to-a-number
+            // .TryParse比Parse好(效能差了近70萬倍)  https://dotblogs.com.tw/milkgreenteaprograme_c_sharp/2017/11/02/012402
+            int result;
+            if (int.TryParse("10000", out result))   // 轉換成功的結果，會以「變數result」輸出 (out)
+            {
+                @:輸出#5B：int.TryParse()轉換成功！成果是 @result
+                //                                                                    ^^^^^^ 註解：這句程式碼後面不需分號（;） *@
+            }
+            else
+            {
+                @:輸出#5B：int.TryParse()轉換失敗！
+            }
+        }
+
+
+        <br /><br />  <!-- 關於超連結，也可以參閱後續範例 Index10BeginForm的 Html.ActionLink() -->
+        輸出文字#6：@Href("~/Day1/Index")
+        @* 註解：執行成果 ：/Day1/Index。    執行網址（URL）的路徑
+
+                        HTML的超連結<a>就有用到 href關鍵字。如下示範。
+                        <a href="https://www.yahoo.com.tw/">TW Yahoo</a>
+        *@
+
+        <br />
+        輸出文字#7：@Href("Index6")
+        @* 註解： .NET Core新版，執行結果是「Index6」只出現 Action名稱
+
+                         .NET 4.x版（舊版）執行成果 /Views/Day1/Index6。        
+                         ASP.NET的 Web專案裡面的「詳細路徑」 *@
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<WebApplication2022_NetCore8_MVC.Models.UserTable>
+
+@{
+    ViewData["Title"] = "IndexPage2";
+}
+
+<h1>IndexPage2（底下有分頁列）</h1>
+    <h4>分頁。請自行輸入「頁數 (_ID)」與「URL」，如 ...... /Day3/IndexPage2<b>?_ID=3</b><br />public ActionResult IndexPage2(int _ID=1)</h4>
+    如果您想使用 /Day3/IndexPage2/3 這樣的網址，請修改 _ID變數名稱，改成 id以配合Routing設定。 
+    <br /><br />
+<p>
+    <a asp-action="Create">Create New（新增）</a>  &nbsp; |  &nbsp;  @Html.ActionLink("Create New（新增）", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserSex)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserBirthDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserMobilePhone)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model!) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+
+                <br />
+                **自己加上超連結** <br />
+                    <a href="/Day3/Details?_ID=@Html.DisplayFor(modelItem => item.UserId) " target="_blank">
+                        <b> @Html.DisplayFor(modelItem => item.UserName) </b>
+                   </a>
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserSex)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserBirthDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserMobilePhone)
+            </td>
+            <td>  <!-- 需要自己改寫 -->
+                    @Html.ActionLink("Edit（編輯）", "Edit", new { _ID = item.UserId }) |
+                    @Html.ActionLink("Details（明細）", "Details", new { _ID = item.UserId }) |
+                    @Html.ActionLink("Delete（刪除）", "Delete", new { _ID = item.UserId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<!--  ***************************************** -->
+    <br /><br />
+
+    @* @ Html.Raw()方法。不經HTML編碼的 HTML標籤輸出  *@
+    @Html.Raw(ViewBag.PageList)     @* 畫面最下方的「分頁列」 *@
+    <!--  ***************************************** -->

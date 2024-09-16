@@ -1,0 +1,46 @@
+﻿@model WebApplication2022_NetCore8_MVC.Models.UserTable
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SearchIndex</title>
+</head>
+<body>
+<h4>UserTable</h4>
+<hr />
+        <!--  預設的寫法<form asp-action="Search" > -->
+        <form asp-controller="Day3" asp-action="Search" method="post">
+
+            <!-- 第五天，表單驗證（Validation）才會教到 -->
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <!--  就算你把 UserName改成 _SearchWord也是錯誤的。因為ViewModel裡面沒有這個_ SearchWord屬性-->
+                <input asp-for="UserName" class="form-control" />   <!-- ***錯誤示範***  底下的修正 是正確的！ -->
+
+                @* <input type="text" name="_SearchWord" class="form-control" /> *@
+
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search（搜尋，使用 Create範本改的）" class="btn btn-primary" />
+            </div>
+        </form>
+
+        <br /><hr /><br />
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

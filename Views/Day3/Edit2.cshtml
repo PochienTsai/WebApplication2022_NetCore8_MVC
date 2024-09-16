@@ -1,0 +1,74 @@
+﻿@model WebApplication2022_NetCore8_MVC.Models.UserTable
+
+@{
+    ViewData["Title"] = "Edit2";
+}
+
+<h1>Edit2 -- TryUpdateModel() 非同步</h1>
+
+<h4>UserTable</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit2">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@*            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>*@
+
+@*           <!-- ************************************************************* -->
+                <input asp-for="UserId"  type="hidden" />
+                <!-- 自己補上 type="hidden"                              **************** -->*@
+
+                <!-- ************************************************************* -->
+@*                @Html.HiddenFor(model => model.UserId)*@
+                <!-- 錯誤(1)：  為什麼老是出現「找不到_ID」錯誤訊息？？ -->
+                <!-- 翻譯後的HTML原始內容 <input id="UserId" name="UserId" type="hidden" value="26" /> -->
+
+                <!-- 錯誤(2)：  為什麼上一個範例 Edit 卻沒這種錯誤？？ -->
+                <!-- 因為上一個範例是傳回整個ViewModel - UserTable。而這個範例（Edit2）只有傳回一個 int 整數 - 文章編號 (_ID)  -->
+
+@*           <!-- *** 正確的改法********************************************************** -->
+                <input type="hidden" name="_ID" value=@Html.DisplayFor(model => model.UserId) />    
+                <!-- 傳統 / 國際標準 HTML的標準寫法-->
+                <!-- (1) 自己補上 type="hidden"  自己補上傳遞「_ID 變數名稱」 ************* -->
+                <!-- (2) 控制器裡面也要修改，Bind(...)的部分 ************* -->*@
+
+
+
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserSex" class="control-label"></label>
+                <input asp-for="UserSex" class="form-control" />
+                <span asp-validation-for="UserSex" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserBirthDay" class="control-label"></label>
+                <input asp-for="UserBirthDay" class="form-control" />
+                <span asp-validation-for="UserBirthDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserMobilePhone" class="control-label"></label>
+                <input asp-for="UserMobilePhone" class="form-control" />
+                <span asp-validation-for="UserMobilePhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save / Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

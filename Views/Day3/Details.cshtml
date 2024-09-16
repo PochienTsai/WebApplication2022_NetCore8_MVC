@@ -1,0 +1,73 @@
+﻿@model WebApplication2022_NetCore8_MVC.Models.UserTable
+@* Details範本，呈現「單一」數據 *@
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>UserTable</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            欄位名稱 @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
+        <dt class = "col-sm-2">
+            欄位名稱 @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class = "col-sm-2">
+            欄位名稱 @Html.DisplayNameFor(model => model.UserSex)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserSex)
+        </dd>
+
+        <dt class = "col-sm-2">
+            欄位名稱 @Html.DisplayNameFor(model => model.UserBirthDay)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserBirthDay)
+
+            <br /><br />
+                日期的輸出，有這幾種寫法：<br /><br />
+                <!-- 參考資料  https://stackoverflow.com/questions/28114874/html-displayfor-dateformat-mm-dd-yyyy  -->
+                (1) <font color="blue"> @Html.DisplayFor(m => m.UserBirthDay) </font> <br />
+                (2) <font color="green"> @Html.DisplayFor(m => m.UserBirthDay, "{0:yyyy/M/d}") </font> （第二種寫法m => m.UserBirthDay, "{0:yyyy/M/d}"）<br /><br />
+
+                <!-- 請注意！底下的 model是大寫開頭！ Model.  -->
+                (3) <font color="red"> @String.Format("{0:yyyy/MM/dd}", Model.UserBirthDay.ToString()) </font>（Model.UserBirthDay.ToString()） <br />
+                <!-- 輸出成果 1980/3/3 上午 12:00:00  -->
+                (3) <font color="red"> @String.Format("{0:yyyy/MM/dd}", Model.UserBirthDay) </font> （同上，但沒有.ToString()）<br />
+                <!-- 輸出成果 1980/3/3  -->
+
+@*                 <br />
+                <br />使用 Convert.ToDateTime()來做，<br />
+                (4) <font color="orange"> @Convert.ToDateTime(Model.UserBirthDay).ToLongDateString() </font> （.ToLongDateString()）<br />
+                (5) <font color="orange"> @Convert.ToDateTime(Model.UserBirthDay).ToShortDateString() </font> （.ToShortDateString()）<br />
+                (6) <font color="purple"> @Convert.ToDateTime(Model.UserBirthDay).ToString("yyyy/MM/dd") </font> （.ToString("yyyy/MM/dd")）<br /><br />
+
+                <!-- 簡易判別式 -->
+                (7) <font color="navy"> @(Model.UserBirthDay.HasValue ? Model.UserBirthDay.Value.ToString("yyyy/MM/dd") : "") </font>
+                <br /><br /> *@
+        </dd>
+
+        <dt class = "col-sm-2">
+            欄位名稱 @Html.DisplayNameFor(model => model.UserMobilePhone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserMobilePhone)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit編輯", "Edit", new { _ID =Model.UserId }) |
+    <a asp-action="Index">Back to List</a>
+</div>

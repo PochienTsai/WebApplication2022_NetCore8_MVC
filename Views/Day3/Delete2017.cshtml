@@ -1,0 +1,65 @@
+﻿@model WebApplication2022_NetCore8_MVC.Models.UserTable
+
+@{
+    ViewData["Title"] = "Delete2017";
+}
+
+    <h3>Are you sure you want to delete this?</h3>........刪除前，請您確認一下內容（真的要刪除嗎？）
+    <br />請自行輸入 網址 http://xxxxxx/UserDB/Delete?_ID=1
+    <div>
+        <h4>UserTable - 舊版的檢視畫面，HTML Helper</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <!-- 自己補上的。呈現這筆記錄的ID（主索引鍵）********** (start) -->
+            <dt>
+                @Html.DisplayNameFor(model => model.UserId)
+            </dt>
+            <dd>
+                <font color="red"> @Html.DisplayFor(model => model.UserId) </font>
+            </dd>
+            <!-- 自己補上的。呈現這筆記錄的ID（主索引鍵）********** (end) -->
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
+            <dd>
+                <font color="red"> @Html.DisplayFor(model => model.UserName) </font>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UserSex)
+            </dt>
+            <dd>
+                <font color="red"> @Html.DisplayFor(model => model.UserSex) </font>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UserBirthDay)
+            </dt>
+            <dd>
+                <font color="red"> @Html.DisplayFor(model => model.UserBirthDay) </font>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UserMobilePhone)
+            </dt>
+            <dd>
+                <font color="red"> @Html.DisplayFor(model => model.UserMobilePhone) </font>
+            </dd>
+
+        </dl>
+
+
+
+        <!-- ***  舊版的檢視畫面，HTML Helper *** -->
+
+        <!-- 產生的表單，HTML碼有 _ID。  <form action="/Day3/Delete2017?_ID=23" method="post">  -->
+        @using (Html.BeginForm())
+        {<!-- 避免XSS、CSRF攻擊 -->
+            @Html.AntiForgeryToken()
+
+            <input type="submit" value="Delete2017（確認刪除）" />
+            <br /><br />
+            @Html.ActionLink("Back to List（回  列表）", "List")
+        }
+    </div>

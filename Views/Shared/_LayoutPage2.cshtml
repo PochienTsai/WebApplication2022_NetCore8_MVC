@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "自訂的「版面配置頁」- 包含 Header與 Footer兩個區段";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+
+        <header>
+            @* 是否已在 Index8頁面中，設定指定的區段？ *@
+            @if(IsSectionDefined("header"))
+            {
+                @RenderSection("header");
+            }
+            else
+            {
+                @:抱歉！！並沒有設定 &lt;header&gt;區段
+            }
+        </header>
+
+
+        <article>
+            @RenderBody()
+        </article>
+
+
+        <footer>
+            @* 是否已在 Index8頁面中，設定指定的區段？ *@
+            @if (IsSectionDefined("footer"))
+            {
+                @RenderSection("footer");
+            }
+            else
+            {
+                @:抱歉！！並沒有設定 &lt;footer&gt;區段
+            }
+        </footer>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+﻿@model PaginatedList<WebApplication2022_NetCore8_MVC.Models.UserTable>
+@* ********************重點！請修改這裡！！     *@
+@* ********************重點！請修改這裡！！     *@
+@* ********************重點！請修改這裡！！     *@
+
+@{
+    ViewData["Title"] = "IndexPage3";
+}
+
+<h1>IndexPage3  分頁#3（微軟官方教材）需搭配根目錄底下的PaginatedList.cs </h1>
+<h4>請輸入/Day3/IndexPage3</h4>
+
+<h4>IndexPage3  分頁#3（微軟官方教材）</h4>  https://learn.microsoft.com/zh-tw/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-6.0
+    <br />需搭配根目錄底下的PaginatedList.cs
+<p>
+    <a asp-action="Create">Create New（新增）</a>  &nbsp; |  &nbsp;  @Html.ActionLink("Create New（新增）", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>@* ************請自己動手加上  下面這一段 ******  *@
+            <th>
+                UserName
+            </th>
+            <th>
+                UserSex
+            </th>
+            <th>
+                UserBirthDay
+            </th>
+            <th>
+                UserMobilePhone
+            </th>
+            <th>功能</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserSex)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserBirthDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserMobilePhone)
+            </td>
+            <td>  <!-- 需要自己改寫 -->
+                    @Html.ActionLink("Edit（編輯）", "Edit", new { _ID = item.UserId }) |
+                    @Html.ActionLink("Details（明細）", "Details", new { _ID = item.UserId }) |
+                    @Html.ActionLink("Delete（刪除）", "Delete", new { _ID = item.UserId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+    @* ************請自己動手加上  下面這一段 （需搭配根目錄底下的PaginatedList.cs） ******************************  *@
+    <hr />
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <a href="/Day3/IndexPage3?_ID=@(Model.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Previous（上一頁）
+    </a>
+    
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
+    <a href="/Day3/IndexPage3?_ID=@(Model.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next（下一頁）
+    </a>
+

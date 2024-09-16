@@ -1,0 +1,48 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index92Array - 陣列</title>
+</head>
+<body>
+    <div>
+        <h3>陣列內容：</h3> <hr />
+        @{
+            string[] myMembers = { "Willy Gates", "Steve Jacobs", "蔡法文", "野村拓哉", "Tom Jerry", "金大正", "三普", "黃小泉", "Mike Jason" };
+
+            foreach (var person in myMembers)
+            {
+                    @person
+                    @:，                      @* 註解：透過逗號（，）分隔 *@
+            }
+        }
+
+        <br /><br />
+
+        <h3>常見用法：</h3> <hr />
+        <p>陣列長度： @myMembers.Length 個元素</p>
+        <p>「三普」這個人在陣列中的位置（從零算起）： @Array.IndexOf(myMembers, "三普")</p>
+        <p>「七普」這個人在陣列中的位置（找不到則傳回-1）： @Array.IndexOf(myMembers, "七普")</p>
+        <p> Index數字2（從零算起，所以是第三個）是誰： @myMembers[2]</p>
+
+        <br />
+
+        <h3>Array.Reverse()（反轉陣列）</h3> <hr />
+        @{
+            Array.Reverse(myMembers);
+
+            foreach (var reversedperson in myMembers)            {
+                <p>@reversedperson</p>
+            }
+
+        }
+
+    </div>
+</body>
+</html>

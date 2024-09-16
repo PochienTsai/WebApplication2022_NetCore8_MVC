@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "自訂的「版面配置頁」";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        <h2>自訂的「版面配置頁」</h2>        <hr />
+        @RenderBody()
+
+        @*  *******************************  *@
+        @*  子頁面 的內容，會呈現在此！ *@
+        @*  *******************************  *@
+
+    </div>
+</body>
+</html>

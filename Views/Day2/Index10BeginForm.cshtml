@@ -1,0 +1,119 @@
+﻿@{
+    Layout = null;
+
+    // 本範例跟 Index91Add 類似，只是改用 Razor撰寫「HTML表單」
+    var result = "";
+    var num = 10;
+
+
+    //if (!IsPost)   // 無法使用此方法
+    // {   // 第一次執行。
+    //    result = "網頁「第一次」執行。";
+    // }
+    // else
+    // {   // PostBack（回傳）
+    //     result = "按下Submit按鈕。送出之後......";
+
+    if (Context.Request.ContentLength > 0)      // 參考資料 http://www.cftea.com/c/2020/08/12958.asp
+    {   // PostBack（回傳）
+        result = "按下Submit按鈕。送出之後......";
+
+        int number = 0;
+        // http://charleslin74.pixnet.net/blog/post/454299038
+        //if (int.TryParse(Context.Request.Form["TextBox1"], out number))  // ASP.NET Core沒有 .IsInt()這種方法
+        if (int.TryParse(Context.Request.Form["TextBox1"].ToString(), out number))  // ASP.NET Core沒有 .IsInt()這種方法
+        {
+            num = number;
+            num = (num * 10);
+            @: 答案是 <font color="red"> @num </font>
+            <br />
+            @: 輸出「貨幣格式」： <font color="red"> @String.Format("{0:C}", @num) </font>
+            <br />
+            <br />
+            <br />
+        }
+        else
+        {
+            result += "Sorry！～您輸入是" + Context.Request.Form["TextBox1"].ToString() + "，只能輸入整數。";
+        }
+    }
+    else
+    {    // 第一次執行。
+        result = "網頁「第一次」執行。";
+    }
+
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index10BeginForm - 透過 HTML Helper來寫表單</title>
+</head>
+<body>
+    <div>
+        <h3>透過 HTML Helper來寫表單</h3>
+
+        <br />本範例跟 Index91Add 類似（上一個範例 Day1控制器底下的 Index91Add動作）
+        <br />只是改用 Razor撰寫「HTML表單」<hr /><br />
+        *************************************<br />
+        <font color="red"> @result </font>
+
+        @using (Html.BeginForm())
+        {
+                @: 請輸入 1~20之間的數字（整數）：           
+
+                @Html.TextBox("TextBox1", "10", new { required = true, id = "textbox1", maxlength = "5" })
+                    // (1). 最後一個參數的範例，可以輸入許多HTML屬性   new { id = "text1", maxlength="20", size="15" }
+                    // (2). 如果您要加入HTML屬性的CSS，因為 class是關鍵字（保留字），所以需加上＠符號以資區別。
+                    //       例如：   new { @class = "RWD" }
+                    // 詳見 https://msdn.microsoft.com/zh-tw/library/dd493049(v=vs.118).aspx
+
+            <!--  送出（Submit）按鈕，仍要使用傳統HTML的 Submit按鈕 -->
+            <input type="Submit" name="Submit" value="Submit 送出" />
+        }
+
+        @* 註解：Web Server（IIS）翻譯之後的網頁，HTML原始碼如下：
+        <form action="/Day2/Index10BeginForm" method="post">
+            請輸入 1~20之間的數字（整數）
+            <input type="text" name="TextBox1" value="10" required="True" id="textbox1" maxlength="5" />
+
+            <input type="Submit" name="Submit" value="Submit 送出" />
+        </form>
+        *@
+
+
+        <br /><br /><br />
+        <br /><hr /><br />
+        超連結<br />
+        @Html.ActionLink("超連結的呈現文字，如：前往 Index3網頁", "Index3")  <br /><br />
+
+        @Html.ActionLink("超連結的呈現文字，如：前往 Index3網頁（開啟新網頁）", "Index3", "new { target=\"_blank\"}")  <br /><br />
+
+        @Html.ActionLink("超連結的呈現文字，如：前往外部網站（**錯誤**）", "https://tw.yahoo.com/")  <br /><br />
+        @* 此為錯誤範例，請看執行後的HTML原始檔（超連結網址） *@
+
+
+        @Href("~/Day1/Index")    <br /><br />
+        @* 註解：執行成果 ：/Day1/Index
+                         有寫「根目錄（~）」。執行網址（URL）的路徑 *@
+
+        @Href("Index6")  <br /><br />
+        @* 註解：執行成果 /Views/Day1/Index6
+                         專案裡面的「詳細路徑」 *@
+        <hr /><br /><br />
+
+        <br /><br />
+        <!--  複習一下 Day1控制器的「Index1A、Index1B、Index1E」動作，與下面類似。 -->
+        傳統HTML超連結<br />
+        <a href="https://tw.yahoo.com/" target="_blank">前往外部網站（開啟新網頁）</a>  <br /><br />
+
+        <a href="Index3">前往 Index3檢視網頁</a>  <br /><br />
+        <a href="~/Day1/index3">前往 Index3檢視網頁</a>  <br /><br />
+
+
+    </div>
+</body>
+</html>

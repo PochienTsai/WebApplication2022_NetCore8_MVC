@@ -1,0 +1,102 @@
+﻿@model WebApplication2022_NetCore8_MVC.Models.UserTable
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit -- 修改（編輯）畫面</h1>
+
+<h4>UserTable</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+@*                <input asp-for="UserId" class="form-control" />   <!-- 預設的檢視畫面，產生的欄位 -->*@
+
+                <font color="red"><h3> @Html.DisplayFor(model => model.UserId) </h3></font>
+                <!-- 以前 .NET 4.x 完整版- MVC 5 的寫法 / 呈現這筆記錄的ID（主索引鍵）**** -->
+
+
+           <!-- ************************************************************* -->
+                @*<input asp-for="UserId" class="form-control" readonly />   <!-- 預設的檢視畫面，產生的欄位 -->*@
+
+                <input asp-for="UserId"  type="hidden" />
+                <!-- (1) 自己補上type="hidden"                              **************** -->
+
+                <!-- ************************************************************* -->
+@*                @Html.HiddenFor(model => model.UserId)
+                <!-- (2) 自己補上 type="hidden"                              **************** -->*@
+
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserSex" class="control-label"></label>
+                <input asp-for="UserSex" class="form-control" />
+                <span asp-validation-for="UserSex" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <br />注意！<font color="red">日期欄位，需修正為 yyyy/MM/dd。不可以有時間欄位（如 12:00:00）。</font><br /><br />
+                <label asp-for="UserBirthDay" class="control-label"></label>
+
+                <!-- https://www.learnrazorpages.com/razor-pages/forms/dates-and-times -->
+                
+                @* <input asp-for="UserBirthDay" class="form-control" /> *@
+                <!-- 改了就會成功！！ -->
+                <!-- 因為您的ViewModel 設定為 DateTime? （可為 null）。所以畫面上 TextBox的日期不會顯示出來  -->
+
+                @* 以下三種寫法都無效 *@                             
+                <input asp-for="UserBirthDay" class="form-control" asp-format="{0:yyyy-MM-dd}" />
+                @* 
+                    <input asp-for="UserBirthDay" class="form-control" asp-format="{0:yyyy/MM/dd}" />
+                    <input asp-for="UserBirthDay" class="form-control" asp-format="{0:yyyy/MM/dd hh:mm:dd}" /> *@
+                
+                <!-- ******   請自行修改   *******************************************  -->
+                <!-- 底下兩種寫法 可運作！！-->
+                @* <input asp-for="UserBirthDay" class="form-control" asp-format="{0:yyyy-MM-dd hh:mm:dd}" /> *@
+                                
+
+                @*  <br />DateTime的另一種作法 <!-- ****** 解決方法在此！ ****** 如同 Details檢視畫面 的作法 ***** -->
+                    @Html.EditorFor(model => model.UserBirthDay, new
+                    {
+                        htmlAttributes = new
+                        {
+                            @class = "form-control",
+                            @Value = @Convert.ToDateTime(Model.UserBirthDay).ToString("yyyy/MM/dd")
+                        }
+                    }) *@
+
+                <span asp-validation-for="UserBirthDay" class="text-danger"></span>
+            </div>
+            <br /><br />
+
+
+            <div class="form-group">
+                <label asp-for="UserMobilePhone" class="control-label"></label>
+                <input asp-for="UserMobilePhone" class="form-control" />
+                <span asp-validation-for="UserMobilePhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save / Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="List">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

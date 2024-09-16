@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+
+    string result = "";
+
+    if (Context.Request.ContentLength > 0)      // 參考資料 http://www.cftea.com/c/2020/08/12958.asp
+    {   // PostBack（回傳）
+        result = "按下Submit按鈕。送出之後......";
+    }
+    else
+    {    // 第一次執行。
+         result = "網頁「第一次」執行。";        
+    }
+    // if (!IsPost)   //註：ASP.NET Core沒有這種方法
+    // //if (!HttpMethods.IsPost("POST"))   //檢查表單的方法是否為POST？跟 IsPost無關
+    // //if (!Model.FormPosted)
+    // {   // 第一次執行。
+    //     result = "網頁「第一次」執行。 IsPost屬性 = false";
+    // }
+    // else
+    // {   // PostBack（回傳）
+    //     result = "按下Submit按鈕。送出之後，造成PostBack......（此為Web Form用語）。IsPost屬性 = true";
+    // } 
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index90IsPost - 類似Web Form的「Page.IsPostBack」</title>
+</head>
+<body>
+    <div>
+        執行步驟：每次只能按一個按鈕，只按一次。<br />若完成後，想測試其他按鈕，請重新執行本網頁才能看見正確結果。「請勿」按下F5重新整理瀏覽器畫面。<br /><br /><br />
+
+        傳統HTML表單：<br />
+        <form method="POST" action="">
+            <input type="Submit" name="Submit" value="Submit 送出" />
+            <br />
+            <br />
+            <button name="Button1">表單「內部」的一般按鈕，也會觸發 PostBack</button>
+            <!-- HTML註解：按下這個按鈕，也會觸發 PostBack -->
+        </form>
+
+        <br /><hr /><br />
+        <button name="Button2">表單「外面」的一般按鈕，「不會」觸發 PostBack</button>
+        <!-- HTML註解：按下這個按鈕，「不會」觸發 PostBack -->
+
+        <br /><br /><br />
+        *************************************<br />
+        <h3><font color="red"> @result </font></h3>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+﻿@model WebApplication2022_NetCore8_MVC.Models.Class1
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index13Create2022 - VS2022產生「檢視畫面」已有變化！！ 改成 Tag Helper</title>
+</head>
+<body>
+
+<h4>Class1 - VS2022產生「檢視畫面」已有變化！！ 改成 Tag Helper</h4>
+                搭配 Class1 & <font color=red>I</font>FormCollection，做出新增（Create）的檢視畫面。<br />本畫面經過簡化，並非原始產出的檢視畫面。
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index13Create2022">
+
+            <!-- https://docs.microsoft.com/zh-tw/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-6.0 -->
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!-- 表單驗證，第五天的課程 -->
+
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create - VS2022產生「檢視畫面」已有變化！！ 改成 Tag Helper" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>

@@ -1,0 +1,105 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index7Request - 學習 Request</title>
+</head>
+<body>
+    <div>
+        <h3>Request.Browser</h3>
+        <hr /><br />
+        用戶端的瀏覽器支援功能：<br />
+
+        @{
+            string userAgent = Context.Request.Headers["User-Agent"];
+        }
+        <font color="red"> @userAgent </font>
+
+
+        @*
+        // ** .NET Core 已經沒有這種寫法 **
+        Type = @Context.Request.Browser.Type  <br />
+        Name = @Context.Request.Browser.Browser <br />
+        Version = @Context.Request.Browser.Version  <br />
+        Major Version = @Context.Request.Browser.MajorVersion  <br />
+        Minor Version = @Context.Request.Browser.MinorVersion  <br />
+        Platform 作業系統 @Context.Request.Browser.Platform  <br />
+        Is Beta = @Context.Request.Browser.Beta  <br />
+        是否為 Web Crawler 搜尋引擎= @Context.Request.Browser.Crawler  <br />
+        Is AOL = @Context.Request.Browser.AOL  <br />
+        Is Win16 = @Context.Request.Browser.Win16  <br />
+        Is Win32 = @Context.Request.Browser.Win32  <br />
+        Supports Frames （網頁框架）= @Context.Request.Browser.Frames  <br />
+        Supports Tables = @Context.Request.Browser.Tables  <br />
+        Supports Cookies = @Context.Request.Browser.Cookies  <br />
+
+        @{    // 另一種寫法，使用 「@:」
+            @:Supports Java Applets =@Context.Request.Browser.JavaApplets  <br />
+            @:Supports ActiveX Controls = @Context.Request.Browser.ActiveXControls  <br />
+            @:CDF（網路廣播，Webcasting） = @Context.Request.Browser.CDF  <br />
+        }*@
+
+
+
+        @*  註解：ASP.NET(Web Form)的寫法，字串與變數混用
+         <%
+             Response.Write("Type = " + Context.Request.Browser.Type + "<br>");
+             Response.Write("Name = " + Context.Request.Browser.Browser + "<br>");
+             Response.Write("Version = " + Context.Request.Browser.Version + "<br>");
+             Response.Write("Major Version = " + Context.Request.Browser.MajorVersion + "<br>");
+             Response.Write("Minor Version = " + Context.Request.Browser.MinorVersion + "<br>");
+             Response.Write("Platform 作業系統 = " + Context.Request.Browser.Platform + "<br>");
+             Response.Write("Is Beta = " + Context.Request.Browser.Beta + "<br>");
+             Response.Write("是否為 Web Crawler 搜尋引擎= " + Context.Request.Browser.Crawler + "<br>");
+             Response.Write("Is AOL = " + Context.Request.Browser.AOL + "<br>");
+             Response.Write("Is Win16 = " + Context.Request.Browser.Win16 + "<br>");
+             Response.Write("Is Win32 = " + Context.Request.Browser.Win32 + "<br>");
+             Response.Write("Supports Frames （網頁框架）= " + Context.Request.Browser.Frames + "<br>");
+             Response.Write("Supports Tables = " + Context.Request.Browser.Tables + "<br>");
+             Response.Write("Supports Cookies = " + Context.Request.Browser.Cookies + "<br>");
+             Response.Write("Supports Java Applets = " + Context.Request.Browser.JavaApplets + "<br>");
+             Response.Write("Supports ActiveX Controls = " + Context.Request.Browser.ActiveXControls + "<br>");
+             Response.Write("CDF（網路廣播，Webcasting） = " + Context.Request.Browser.CDF + "<br>");
+        %>
+        *@
+
+
+        <br /><br /><br />
+        <h3>Request常用的屬性</h3>
+        <hr /><br />
+
+        @*<table border="1">
+            <tr>
+                <th bgcolor="AliceBlue">Requested URL</th>
+                <th>Relative Path</th>
+                <th bgcolor="AliceBlue">Full Path</th>
+                <th>HTTP Request Type</th>
+            </tr>
+            <tr>
+                <td bgcolor="AliceBlue">
+                    完整的網址（URL）<br />
+                    @Request.Url
+                </td>
+
+                <td>
+                    網站路徑（從「根目錄」算起。虛擬路徑 / Virtual path）<br />
+                    @Request.FilePath
+                </td>
+
+                <td bgcolor="AliceBlue">
+                    Web Server上的硬碟路徑（實體路徑 / Physical path）：<br />
+                    @Request.MapPath(Request.FilePath)
+                </td>
+
+                <td>@Request.RequestType</td>
+            </tr>
+        </table>*@
+
+    </div>
+</body>
+</html>

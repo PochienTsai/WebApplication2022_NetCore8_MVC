@@ -1,0 +1,47 @@
+﻿@model WebApplication2022_NetCore8_MVC.Models.Class1
+@*
+    // 註解：請問 model與 Model兩個字（除了大小寫不同）有何差異？？
+    // @Model is "a property of the view" that refers to the model that was passed to the view from the controller.
+    // This property is strongly typed based on the data type specified in the @model directive at the top of the view.
+    // ***  @model occurs "only once" and specifies the "data type" of the model.
+    // ***  @Model allows you to reference "the value for the model" passed to the view.
+*@
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index13Create - 搭配 Class1 & IFormCollection，做出新增（Create）的檢視畫面</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken() // 避免CSRF攻擊！！
+
+        <div class="form-horizontal">
+            <font color="purple">
+                <h4>Class1 ...... #3</h4>
+                搭配 Class1 & <font color=red>I</font>FormCollection，做出新增（Create）的檢視畫面。<br />本畫面經過簡化，並非原始產出的檢視畫面。
+            </font>
+            <hr />
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.UserName)      @* 不寫 model，寫 x 也行 *@
+
+                <div class="col-md-10">
+                    @Html.EditorFor(x => x.UserName)
+                </div>
+            </div>
+
+            <input type="submit" value="Create" />
+        </div>
+    }
+
+
+</body>
+</html>

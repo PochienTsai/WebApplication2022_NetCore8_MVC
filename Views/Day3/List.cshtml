@@ -1,0 +1,153 @@
+﻿@model IEnumerable<WebApplication2022_NetCore8_MVC.Models.UserTable>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>List - 「多筆」記錄的呈現</h1>
+
+<p>
+    <a asp-action="Create">Create New（新增一筆記錄）</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserSex)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserBirthDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserMobilePhone)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model!) {     // 變數後面的 !   代表：允許 null值
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                    @if (!Convert.IsDBNull(item.UserName))
+                    {
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    }
+                    @* 自己手動補上的判別式。 
+                          EF Core v8.0版，如果資料表裡面有NULL（空值）則會報錯。但舊版 EF Core v7.0.9仍可正常運作。*@
+                            
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserSex)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserBirthDay)
+            </td>
+            <td>
+                    @if (!Convert.IsDBNull(item.UserName))
+                    {
+                        @Html.DisplayFor(modelItem => item.UserMobilePhone)
+                    }
+                    @* 自己手動補上的判別式。 
+                         EF Core v8.0版，如果資料表裡面有NULL（空值）則會報錯。但舊版 EF Core v7.0.9仍可正常運作。*@
+
+                
+            </td>
+            <td>
+                @Html.ActionLink("Edit 編輯", "Edit", new { _ID=item.UserId }) |  
+                @Html.ActionLink("Details 明細", "Details", new { _ID=item.UserId }) |
+                @Html.ActionLink("Delete 刪除", "Delete", new { _ID=item.UserId })
+
+                <hr / >(2) 搭配路由 (Route) 的寫法。預設值 id。
+                <!-- 底下是搭配路由 (Route) 的寫法。預設值 id。請自行修改 Program.cs -->
+                @Html.ActionLink("Edit 編輯", "Edit", new { id=item.UserId }) |
+                @Html.ActionLink("Details 明細", "Details", new { id=item.UserId }) |
+                @Html.ActionLink("Delete 刪除", "Delete", new { id=item.UserId })
+                <!-- 如果最後的參數，您不加寫 id= ，只寫成 new { item.UserId }的話。最後翻譯的HTML成果就會變成 UserId（參數名稱） -->
+
+                <hr / >(3) Tag Helper 的寫法。預設值 id。<br />（錯誤寫法，僅供參考！！）
+                <!-- https://docs.microsoft.com/zh-tw/aspnet/core/data/ef-mvc/crud?view=aspnetcore-5.0 -->
+                <a asp-action="Edit" asp-route-id="?_ID=@item.UserId">Edit 編輯</a> |
+                <a asp-action="Details" asp-route-id="?_ID=@item.UserId">Details 明細</a> |
+                <a asp-action="Delete" asp-route-id="?_ID=@item.UserId">Delete 刪除</a> 
+
+                <hr / >(4) Tag Helper 的**錨點 asp-route-{value} **寫法。  預設值 _ID。請寫成asp-route-「_ID」
+                <!-- 錨點的寫法 https://docs.microsoft.com/zh-tw/aspnet/core/mvc/views/tag-helpers/built-in/anchor-tag-helper?view=aspnetcore-5.0 -->
+                <a asp-action="Edit" asp-route-_ID="@item.UserId">Edit 編輯</a> |
+                <a asp-action="Details" asp-route-_ID="@item.UserId">Details 明細</a> |
+                <a asp-action="Delete" asp-route-_ID="@item.UserId">Delete 刪除</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+
+    <!-- ***** 以下搭配關鍵字的「搜尋」功能 ************************************ -->
+    <br /><br />********************************************************************<br />
+
+    <h3>Search文章搜尋 #1</h3>
+    <!-- ************************************************************************** -->
+    @using (Html.BeginForm("Search", "Day3", FormMethod.Post))   // 三個參數分別是：(1)動作名稱、(2)控制器名稱、(3)POST或GET
+    {
+        @Html.AntiForgeryToken() <!-- 避免CSRF攻擊 -->
+
+        @: 請輸入關鍵字，搜尋「UserName」欄位 --
+        @Html.TextBox("_SearchWord") // 必須跟「控制器」裡面 Search動作的「輸入變數」一樣。傳統HTML寫法 <input type="text" name="_SearchWord" />
+        <input type="submit" value="搜尋#1（請輸入關鍵字）" /> <br /><br />
+    }
+
+    <br /><br />
+    <h3>Search文章搜尋 #1-1（改版）採用TagHelper</h3>
+    <!-- https://docs.microsoft.com/zh-tw/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.formtaghelper -->
+    <!-- 避免CSRF攻擊。在Form (TagHelper) - 如果有寫 action屬性、或是Method = Get就會啟動此功能。設定為true。 -->
+    <form asp-action="Search">
+
+        <div class="form-group">
+            @* 錯誤版 （請您也參閱 SearchIndex動作與檢視畫面。跟本範例一樣）*@
+            @*   <label asp-for="_SearchWord" class="control-label"></label>
+                    <input asp-for="_SearchWord" class="form-control" /> *@
+
+            @* // 必須跟「控制器」裡面 Search動作的「輸入變數」一樣。
+                  // 傳統HTML寫法 <input type="text" name="_SearchWord" /> *@
+                 <input type="text" name="_SearchWord" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create/Search（從「新增」的檢視畫面，改成「搜尋」輸入關鍵字）" class="btn btn-primary" />
+        </div>
+    </form>
+
+
+    <hr />
+    <h3>Search文章搜尋 #2</h3>
+    <!-- ***************************************************************** -->
+    @using (Html.BeginForm("Search2", "Home"))   // 三個參數分別是：(1)動作名稱、(2)控制器名稱、(3)POST或GET
+    {
+        @Html.AntiForgeryToken() <!-- 避免CSRF攻擊 -->
+
+        @: 請輸入關鍵字，搜尋「UserName」欄位 --
+        @Html.TextBox("_ID") // 必須跟「控制器」裡面 Search2動作的「輸入變數 _ID」一樣。傳統HTML寫法 <input type="text" name="_ID" />
+        <input type="submit" value="搜尋#2（請輸入關鍵字）" /> <br /><br />
+    }
+
+    <hr />
+    <h3>Search文章搜尋 #3</h3>
+    <!-- ***************************************************************** -->
+    @using (Html.BeginForm("Search3", "Day3", FormMethod.Get))   // 三個參數分別是：(1)動作名稱、(2)控制器名稱、(3)POST或GET
+    {
+        @Html.AntiForgeryToken() <!-- 避免CSRF攻擊 -->
+
+        @: 請輸入關鍵字，搜尋「UserName」欄位 --
+        @Html.TextBox("_SearchWord") // 必須跟「控制器」裡面 Search動作的「輸入變數」一樣。傳統HTML寫法 <input type="text" name="_SearchWord" />
+        <input type="submit" value="搜尋#3（請輸入關鍵字）" /> <br /><br />
+    }
+

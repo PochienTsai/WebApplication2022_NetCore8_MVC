@@ -1,0 +1,51 @@
+﻿@model WebApplication2022_NetCore8_MVC.Models.Class1
+@*
+    // 檢視畫面上的第一列（model）與 Model，有何不同？？
+    // @Model is "a property of the view" that refers to the model that was passed to the view from the controller.
+    // This property is strongly typed based on the data type specified in the @model directive at the top of the view.
+    // ***  @model occurs "only once" and specifies the "data type" of the model.
+    // ***  @Model allows you to reference "the value for the model" passed to the view.
+*@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index10 - 檢視畫面上的第一列（model）與 Model，有何不同？？</title>
+</head>
+<body>
+    <div>
+        <h4>Class1</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Html.DisplayName。屬性名稱（Class1.cs類別檔裡面的「屬性 property」）：
+                @Html.DisplayNameFor(x => x.UserName)
+                <hr /><br />
+            </dt>
+
+            <dd> 
+                Html.Display。值：   
+                @Html.DisplayFor(x => x.UserName)
+
+                <br /><br />
+                <!-- ********************************************************************************************* -->
+                也可以寫成這樣（直接使用  大寫的「Model.屬性名稱」）：
+                <font color="red">@Model.UserName</font>
+                <!-- ********************************************************************************************* -->
+                <br /><br />
+                取得Class1類別「.UserName屬性」的 「<font color="red">值</font>」
+
+                <!--  我自己的說法：  
+                         我要從上面第一列宣告的 model裡面（也就是Class1類別），取得「.UserName屬性」的 「值」 -->
+            </dd>
+
+        </dl>
+    </div>
+
+</body>
+</html>

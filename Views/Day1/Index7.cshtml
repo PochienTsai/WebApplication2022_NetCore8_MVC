@@ -1,0 +1,94 @@
+﻿
+@{
+    Layout = null;
+
+    string str = "<a href=http://www.asp.net/>ASP.NET官方網站</a>";
+    // 字串與變數相連，C#語法請用 + 符號。
+
+    string str1 = "<a href=www.asp.net>ASP.NET官方網站</a>";
+    // 如果網址前面不加上 http:// 的話，網頁上的網址將當成在「本網站」底下的路徑
+    // 例如  http://你的網站/Day1/www.asp.net
+
+    // 字串前面加上 @符號，就可以一路寫到底，不在乎什麼 逃脫字元（\）來註明特殊符號
+    string str2 = @"C:\temp\";    // 註解：這兩種寫法都能用來寫檔案的路徑。
+    string str3 = "C:\\temp\\";     
+
+    string str4 = @"您好，這裡有一個""符號";
+    string str5 = "您好，這裡有一個\"符號";  // 以逃脫字元（\）來註明字串裡面的特殊符號（"）
+
+    // 完成上面的學習後，這裡有個小題目考考您。
+    // 第一個範例的 標準寫法 應該是
+    string str6 = "<a href=\"http://www.asp.net/\">ASP.NET官方網站</a>";
+    string str7 = @"<a href=""http://www.asp.net/"">ASP.NET官方網站</a>";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index7 - HtmlHelper輔助方法</title>
+</head>
+<body>
+    <div>
+        <hr /><br /><br />
+        JavaScript輸出文字：
+@*   <!-- HTML4 與  (x)HTML。   ASP.NET Core 請放在 /wwroot目錄底下 -->
+        <script type="text/javascript" src="/js/javascript.js"></script>
+
+        <!-- HTML5。   ASP.NET Core 請放在 /wwroot目錄底下 -->
+        <script src="/js/javascript.js"></script> *@
+
+        <script>
+            window.alert('這種寫法會經過HTML編碼 -- @str');
+            @* window.alert('無編碼 -- @Ajax.JavaScriptStringEncode(str)');    
+                  // 註：ASP.NET Core沒有這種方法 *@
+
+            window.confirm("是否確定？");
+        </script>
+
+
+        為了避免XSS（跨網頁腳本攻擊），Razor的文字輸出，尤其是「HTML標籤」，
+        預設都經過HTML編碼：（請您執行後，檢視瀏覽器的HTML原始碼）   
+        <br /><br />
+        @str     <br /><br />
+        @str1   <br /><br />
+
+        @str2   <br />
+        @str3   <br /><br />
+
+        @str4   <br />
+        @str5   <br />
+
+        @str6   <br />
+        @str7   <br />
+
+
+        <hr /><br /><br />
+        Html.Raw()方法。不經HTML編碼的 HTML標籤輸出：<br />
+        @Html.Raw(str)     <br />
+        @Html.Raw(str1)   錯誤版  <br />
+        @* 註解： 如果網址前面不加上 http:// 的話，網頁上的網址將當成在「本網站」底下的路徑  http://你的網站/Day1/www.asp.net *@
+
+        @*  string str = "<a href=http://www.asp.net />ASP.NET官方網站</a>";
+        // 字串與變數相連，C#語法請用 + 符號。
+
+        string str1 = "<a href=www.asp.net>ASP.NET官方網站</a>";
+        // 如果網址前面不加上 http:// 的話，網頁上的網址將當成在「本網站」底下的路徑
+        // 例如  http://你的網站/Day1/www.asp.net  *@
+
+
+
+
+        <hr /><br /><br />
+        MvcHtmlString.Create()方法。不經HTML編碼的 HTML標籤輸出。<br />
+        @*    
+        @MvcHtmlString.Create(str)     <br />
+        @MvcHtmlString.Create(str1)   錯誤版  <br />
+        // 註：ASP.NET Core沒有這種方法 *@
+
+        @* 註解： 如果網址前面不加上 http:// 的話，網頁上的網址將當成在「本網站」底下的路徑  http://你的網站/Day1/www.asp.net *@
+
+    </div>
+</body>
+</html>
