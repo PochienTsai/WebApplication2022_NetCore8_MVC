@@ -575,6 +575,34 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                            orderby _userTable.UserId   // 若寫 descending ，則是反排序（由大到小）
                            select _userTable).Skip(NowPageCount).Take(PageSize);
             // .Skip() 從哪裡開始（忽略前面幾筆記錄）。 .Take()呈現幾筆記錄
+            //    // ADO NET MYSQL範例
+            //    var ListAll = new List<UserTable>();
+            //    string connectionString = "YourMySQLConnectionStringHere"; // 請替換為實際的 MySQL 連接字串
+            //    string query = @"
+            //SELECT UserId, UserName, UserSex, UserBirthDay, UserMobilePhone
+            //FROM UserTables
+            //ORDER BY UserId
+            //LIMIT @PageSize OFFSET @NowPageCount";
+            //    using (MySqlConnection connection = new MySqlConnection(connectionString))
+            //    {
+            //        MySqlCommand command = new MySqlCommand(query, connection);
+            //        command.Parameters.AddWithValue("@NowPageCount", NowPageCount);
+            //        command.Parameters.AddWithValue("@PageSize", PageSize);
+            //        connection.Open();
+            //        using MySqlDataReader reader = command.ExecuteReader();
+            //        while (reader.Read())
+            //        {
+            //            var user = new UserTable
+            //            {
+            //                UserId = reader.GetInt32(0),
+            //                UserName = reader.IsDBNull(1) ? null : reader.GetString(1),
+            //                UserSex = reader.IsDBNull(2) ? null : reader.GetString(2),
+            //                UserBirthDay = reader.IsDBNull(3) ? (DateTime?)null : reader.GetDateTime(3),
+            //                UserMobilePhone = reader.IsDBNull(4) ? null : reader.GetString(4)
+            //            };
+            //            ListAll.Add(user);
+            //        }
+            //    }
             //*** 查詢結果 ListAll 是一個 IQueryable ***
             //if (ListAll == null) // 查無資料時，無法正確運作。因為 IQueryable<T>會傳回一個「空集合」而不是「空（null）。所以這段if辨別不了」
             if (ListAll.Any() == false)  // 可運作
