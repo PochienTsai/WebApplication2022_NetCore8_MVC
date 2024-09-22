@@ -2,7 +2,8 @@
 //************************************************************
 using WebApplication2022_NetCore8_MVC.Models;  // 請自己手動加入這個命名空間。
 using Microsoft.EntityFrameworkCore;   // Async「非同步」會用到的命名空間
-using Microsoft.Data.SqlClient;              // 請自己手動安裝NuGet
+using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;              // 請自己手動安裝NuGet
 namespace WebApplication2022_NetCore8_MVC.Controllers
 {
     public class Day3Controller : Controller
@@ -46,6 +47,23 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
             {   // 第一種方法   或 參考 https://medium.com/better-programming/beginners-guide-to-entity-framework-d862c9aaec4
                 _db.UserTables.Add(_userTable);
                 _db.SaveChanges();
+                //    // ADO .NET 的寫法
+                //    string connectionString = "Your MySQL Connection String"; // 請替換為您的 MySQL 連接字串
+                //    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                //    {
+                //        conn.Open();
+                //        string insertQuery = @"
+                //INSERT INTO UserTable (UserName, UserSex, UserBirthDay, UserMobilePhone)
+                //VALUES (@UserName, @UserSex, @UserBirthDay, @UserMobilePhone)";
+                //        using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
+                //        {
+                //            cmd.Parameters.AddWithValue("@UserName", _userTable.UserName);
+                //            cmd.Parameters.AddWithValue("@UserSex", _userTable.UserSex);
+                //            cmd.Parameters.AddWithValue("@UserBirthDay", _userTable.UserBirthDay);
+                //            cmd.Parameters.AddWithValue("@UserMobilePhone", _userTable.UserMobilePhone);
+                //            cmd.ExecuteNonQuery();
+                //        }
+                //    }
                 //// 第二種方法（作法類似後續的 Edit / Delete動作）
                 //// 資料來源  https://msdn.microsoft.com/en-us/library/jj592676(v=vs.113).aspx
                 ////              https://learn.microsoft.com/zh-tw/dotnet/api/microsoft.entityframeworkcore.entitystate
@@ -158,6 +176,33 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                 return View(await ListAll.ToListAsync());   //直接把 UserTables的全部內容 列出來
                 //翻譯成SQL指令的成果，跟第一種方法相同。
             }
+            //// ADO.NET的寫法
+            //List<UserTable> userList = new List<UserTable>();
+            //string connectionString = "Your MySQL Connection String"; // 請替換為您的 MySQL 連接字串
+            //using (MySqlConnection conn = new MySqlConnection(connectionString))
+            //{
+            //    await conn.OpenAsync();
+            //    string selectQuery = "SELECT UserId, UserName, UserSex, UserBirthDay, UserMobilePhone FROM UserTable";
+            //    using MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+            //    using MySqlDataReader reader = cmd.ExecuteReader();
+            //    if (!reader.HasRows)
+            //    {
+            //        return Content(" ** Sorry! 找不到任一筆記錄 ** ");
+            //    }
+            //    while (await reader.ReadAsync())
+            //    {
+            //        UserTable user = new UserTable
+            //        {
+            //            UserId = reader.GetInt32("UserId"),
+            //            UserName = reader.GetString("UserName"),
+            //            UserSex = reader.GetString("UserSex"),
+            //            UserBirthDay = reader.IsDBNull(reader.GetOrdinal("UserBirthDay")) ? (DateTime?)null : reader.GetDateTime("UserBirthDay"),
+            //            UserMobilePhone = reader.GetString("UserMobilePhone")
+            //        };
+            //        userList.Add(user);
+            //    }
+            //}
+            //return View(userList);
             ////簡寫 - 第二種寫法的精S簡版。簡單的寫法
             //if (_db.UserTables == null)
             //{   // 找不到任何記錄。也可寫成 return NotFound();
@@ -234,6 +279,36 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
             {
                 return View(ListOne2.FirstOrDefault());   // 翻譯成SQL指令的結果，同上（第一種方法）。
             }
+            //// ADO .NET的寫法
+            //UserTable user = null;
+            //string connectionString = "Your MySQL Connection String"; // 請替換為您的 MySQL 連接字串
+            //using (MySqlConnection conn = new MySqlConnection(connectionString))
+            //{
+            //    conn.Open();
+            //    string selectQuery = "SELECT UserId, UserName, UserSex, UserBirthDay, UserMobilePhone FROM UserTable WHERE UserId = @UserId";
+            //    using MySqlCommand cmd = new MySqlCommand(selectQuery, conn);
+            //    cmd.Parameters.AddWithValue("@UserId", _ID);
+            //    using MySqlDataReader reader = cmd.ExecuteReader();
+            //    if ( reader.Read())
+            //    {
+            //        user = new UserTable
+            //        {
+            //            UserId = reader.GetInt32("UserId"),
+            //            UserName = reader.GetString("UserName"),
+            //            UserSex = reader.GetString("UserSex"),
+            //            UserBirthDay = reader.IsDBNull(reader.GetOrdinal("UserBirthDay")) ? (DateTime?)null : reader.GetDateTime("UserBirthDay"),
+            //            UserMobilePhone = reader.GetString("UserMobilePhone")
+            //        };
+            //    }
+            //}
+            //if (user == null)
+            //{
+            //    return Content(" ** Sorry! 找不到任一筆記錄 ** ");
+            //}
+            //else
+            //{
+            //    return View(user);
+            //}
             //// 第三種寫法： 透過 .FirstOrDefault() =========================
             //var ListOne3 = _db.UserTables.FirstOrDefault(b => b.UserId == _ID);     // 寫法3-1
             //var ListOne3 = _db.UserTables.First(b => b.UserId == _ID);               // 寫法3-2
@@ -332,6 +407,31 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                     _db.SaveChanges();
                     //**** 刪除以後，必須執行 .SaveChanges()方法，才能真正去DB刪除這一筆記錄 ****
                 }
+                //// ADO .NET 的寫法
+                //string connectionString = "Your MySQL Connection String"; // 請替換為您的 MySQL 連接字串
+                //using (MySqlConnection conn = new MySqlConnection(connectionString))
+                //{
+                //    conn.Open();
+                //    string selectQuery = "SELECT * FROM UserTable WHERE UserId = @UserId";
+                //    using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
+                //    {
+                //        cmd.Parameters.AddWithValue("@UserId", _ID);
+                //        using (MySqlDataReader reader = cmd.ExecuteReader())
+                //        {
+                //            if (!reader.HasRows)
+                //            {
+                //                return Content(" 刪除時，找不到這一筆記錄！");
+                //            }
+                //        }
+                //    }
+                //    string deleteQuery = "DELETE FROM UserTable WHERE UserId = @UserId";
+                //    using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
+                //    {
+                //        cmd.Parameters.AddWithValue("@UserId", _ID);
+                //        cmd.ExecuteNonQuery();
+                //    }
+                //}
+                //return Content("記錄已成功刪除！");
                 //// 第三種方法。必須先找到這一筆記錄。找得到，才能刪除！
                 //UserTable ut = _db.UserTables.Find(_ID);   // https://www.youtube.com/watch?v=cINtgwbG8zo
                 //if (ut == null)
@@ -465,6 +565,38 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                     ut.UserMobilePhone = _userTable.UserMobilePhone;
                     _db.SaveChanges();   // 回寫資料庫（進行修改）
                 }
+                //    // ADO .NET 的寫法
+                //    string connectionString = "Your MySQL Connection String"; // 請替換為您的 MySQL 連接字串
+                //    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                //    {
+                //        conn.Open();
+                //        // 檢查記錄是否存在
+                //        string selectQuery = "SELECT * FROM UserTable WHERE UserId = @UserId";
+                //        using (MySqlCommand selectCmd = new MySqlCommand(selectQuery, conn))
+                //        {
+                //            selectCmd.Parameters.AddWithValue("@UserId", _userTable.UserId);
+                //            using MySqlDataReader reader = selectCmd.ExecuteReader();
+                //            if (!reader.HasRows)
+                //            {
+                //                return NotFound();
+                //            }
+                //        }
+                //        // 更新記錄
+                //        string updateQuery = @"
+                //UPDATE UserTable
+                //SET UserName = @UserName,
+                //    UserSex = @UserSex,
+                //    UserBirthDay = @UserBirthDay,
+                //    UserMobilePhone = @UserMobilePhone
+                //WHERE UserId = @UserId";
+                //        using MySqlCommand updateCmd = new MySqlCommand(updateQuery, conn);
+                //        updateCmd.Parameters.AddWithValue("@UserName", _userTable.UserName);
+                //        updateCmd.Parameters.AddWithValue("@UserSex", _userTable.UserSex);
+                //        updateCmd.Parameters.AddWithValue("@UserBirthDay", _userTable.UserBirthDay);
+                //        updateCmd.Parameters.AddWithValue("@UserMobilePhone", _userTable.UserMobilePhone);
+                //        updateCmd.Parameters.AddWithValue("@UserId", _userTable.UserId);
+                //        updateCmd.ExecuteNonQuery();
+                //    }
                 //// 第二種寫法：========================================= (end)
                 #endregion
                 //// 第三種寫法：========================================= (start)
@@ -575,7 +707,7 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                            orderby _userTable.UserId   // 若寫 descending ，則是反排序（由大到小）
                            select _userTable).Skip(NowPageCount).Take(PageSize);
             // .Skip() 從哪裡開始（忽略前面幾筆記錄）。 .Take()呈現幾筆記錄
-            //    // ADO NET MYSQL範例
+            //    // ADO .NET 的寫法
             //    var ListAll = new List<UserTable>();
             //    string connectionString = "YourMySQLConnectionStringHere"; // 請替換為實際的 MySQL 連接字串
             ////計算符合條件的記錄總數
@@ -802,7 +934,7 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                           // .Contains()對應T-SQL指令的 LIKE，但搜尋關鍵字有「大小寫」的區分
                           // 如果想要排序（OrderBy）請參閱下一個範例。
                           select _userTable;
-            //ADO NET MYSQL範例
+            //ADO .NET 的寫法
             //            var ListAll = new List<UserTable>();
             //            string connectionString = "YourMySQLConnectionStringHere"; // 請替換為實際的 MySQL 連接字串
             //            string query = @"
@@ -971,6 +1103,43 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                 ListAll = ListAll.Where(s => s.UserMobilePhone.Contains(uMobilePhone));
                 //                                                                      // ********** 模糊搜尋，類似SQL指令的 Like '%'
             }
+            //// ADO .NET 的寫法
+            //var ListAll = new List<UserTable>();
+            //var query = "SELECT * FROM UserTable WHERE 1=1";
+            //if (!string.IsNullOrWhiteSpace(uName))
+            //{
+            //    query += " AND UserName LIKE @UserName";
+            //}
+            //if (!string.IsNullOrWhiteSpace(uMobilePhone))
+            //{
+            //    query += " AND UserMobilePhone LIKE @UserMobilePhone";
+            //}
+            //using (var connection = new MySqlConnection("YourConnectionStringHere"))
+            //{
+            //    using var command = new MySqlCommand(query, connection);
+            //    if (!string.IsNullOrWhiteSpace(uName))
+            //    {
+            //        command.Parameters.AddWithValue("@UserName", "%" + uName + "%");
+            //    }
+            //    if (!string.IsNullOrWhiteSpace(uMobilePhone))
+            //    {
+            //        command.Parameters.AddWithValue("@UserMobilePhone", "%" + uMobilePhone + "%");
+            //    }
+            //    connection.Open();
+            //    using var reader = command.ExecuteReader();
+            //    while (reader.Read())
+            //    {
+            //        var user = new UserTable
+            //        {
+            //            UserId = reader.GetInt32("UserId"),
+            //            UserName = reader.GetString("UserName"),
+            //            UserSex = reader.GetString("UserSex"),
+            //            UserBirthDay = reader.GetDateTime("UserBirthDay"),
+            //            UserMobilePhone = reader.GetString("UserMobilePhone")
+            //        };
+            //        ListAll.Add(user);
+            //    }
+            //}
             #endregion//**********************************************************(end)
             ////if ((ListAll != null) && (ModelState.IsValid))  // 有問題。// 查無資料時，無法正確運作。因為 IQueryable<T>會傳回一個「空集合」而不是「空（null）」。所以這段if辨別不了
             if ((ListAll.Any() != false) && (ModelState.IsValid))
