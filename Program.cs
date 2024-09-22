@@ -35,6 +35,13 @@ builder.Services.AddDbContext<MvcUserDbContext>(
 // 根據預設，該方法會將服務存留期設定為 Scoped。
 // Scoped 表示內容物件的存留期會與 Web 要求的存留期保持一致，並且在 Web 要求結束時會自動呼叫 Dispose 方法。
 //********************************************************************
+//**** 讀取 appsettings.json 設定檔裡面的資料（資料庫連結字串）for ADO.NET使用並注入DI ****
+// 讀取 appsettings.json 設定檔裡面的資料（資料庫連結字串）
+IConfiguration config = builder.Configuration;
+string connectionString = config.GetConnectionString("DefaultConnection");
+// 將連線字串注入 DI 容器
+builder.Services.AddSingleton(connectionString);
+//********************************************************************
 #endregion
 //==== 分 隔 線 =============================
 var app = builder.Build();

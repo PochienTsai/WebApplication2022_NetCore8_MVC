@@ -17,10 +17,12 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
         #endregion
         //*************************************   連結 MVC_UserDB 資料庫  ********************************* (end)
         private readonly ILogger<Day3Controller> _logger;
-        public Day3Controller(ILogger<Day3Controller> logger, MvcUserDbContext context)
+        private readonly string _connectionString; //ADO.NET的連線字串
+        public Day3Controller(ILogger<Day3Controller> logger, MvcUserDbContext context, string connectionString)
         {  //                                                                                    ****************************（自己動手加上）
             _logger = logger;
             _db = context;    //*****************************（自己動手加上）
+            _connectionString = connectionString;
             // https://blog.givemin5.com/asp-net-mvc-core-tao-bi-hen-jiu-di-yi-lai-zhu-ru-dependency-injection/
         }
         public IActionResult Index()
@@ -48,7 +50,11 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                 _db.UserTables.Add(_userTable);
                 _db.SaveChanges();
                 //    // ADO .NET 的寫法
+<<<<<<< HEAD
+                //    string connectionString = _connectionString; // 請替換為您的 MySQL 連接字串
+=======
                 //    string connectionString = "Your MySQL Connection String"; // 請替換為您的 MySQL 連接字串
+>>>>>>> 629b68fdd9cf2c73d16910d5ab49209e12be3549
                 //    using (MySqlConnection conn = new MySqlConnection(connectionString))
                 //    {
                 //        conn.Open();
@@ -178,7 +184,11 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
             }
             //// ADO.NET的寫法
             //List<UserTable> userList = new List<UserTable>();
+<<<<<<< HEAD
+            //string connectionString = _connectionString; // 請替換為您的 MySQL 連接字串
+=======
             //string connectionString = "Your MySQL Connection String"; // 請替換為您的 MySQL 連接字串
+>>>>>>> 629b68fdd9cf2c73d16910d5ab49209e12be3549
             //using (MySqlConnection conn = new MySqlConnection(connectionString))
             //{
             //    await conn.OpenAsync();
@@ -281,7 +291,11 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
             }
             //// ADO .NET的寫法
             //UserTable user = null;
+<<<<<<< HEAD
+            //string connectionString = _connectionString; // 請替換為您的 MySQL 連接字串
+=======
             //string connectionString = "Your MySQL Connection String"; // 請替換為您的 MySQL 連接字串
+>>>>>>> 629b68fdd9cf2c73d16910d5ab49209e12be3549
             //using (MySqlConnection conn = new MySqlConnection(connectionString))
             //{
             //    conn.Open();
@@ -408,7 +422,11 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                     //**** 刪除以後，必須執行 .SaveChanges()方法，才能真正去DB刪除這一筆記錄 ****
                 }
                 //// ADO .NET 的寫法
+<<<<<<< HEAD
+                //string connectionString = _connectionString; // 請替換為您的 MySQL 連接字串
+=======
                 //string connectionString = "Your MySQL Connection String"; // 請替換為您的 MySQL 連接字串
+>>>>>>> 629b68fdd9cf2c73d16910d5ab49209e12be3549
                 //using (MySqlConnection conn = new MySqlConnection(connectionString))
                 //{
                 //    conn.Open();
@@ -566,7 +584,11 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                     _db.SaveChanges();   // 回寫資料庫（進行修改）
                 }
                 //    // ADO .NET 的寫法
+<<<<<<< HEAD
+                //    string connectionString = _connectionString; // 請替換為您的 MySQL 連接字串
+=======
                 //    string connectionString = "Your MySQL Connection String"; // 請替換為您的 MySQL 連接字串
+>>>>>>> 629b68fdd9cf2c73d16910d5ab49209e12be3549
                 //    using (MySqlConnection conn = new MySqlConnection(connectionString))
                 //    {
                 //        conn.Open();
