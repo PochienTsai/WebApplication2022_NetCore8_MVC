@@ -802,6 +802,32 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                           // .Contains()對應T-SQL指令的 LIKE，但搜尋關鍵字有「大小寫」的區分
                           // 如果想要排序（OrderBy）請參閱下一個範例。
                           select _userTable;
+            //ADO NET MYSQL範例
+            //            var ListAll = new List<UserTable>();
+            //            string connectionString = "YourMySQLConnectionStringHere"; // 請替換為實際的 MySQL 連接字串
+            //            string query = @"
+            //SELECT UserId, UserName, UserSex, UserBirthDay, UserMobilePhone
+            //FROM UserTables
+            //WHERE UserName LIKE @SearchWord";
+            //            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            //            {
+            //                MySqlCommand command = new MySqlCommand(query, connection);
+            //                command.Parameters.AddWithValue("@SearchWord", "%" + _SearchWord + "%");
+            //                connection.Open();
+            //                using MySqlDataReader reader = command.ExecuteReader();
+            //                while (reader.Read())
+            //                {
+            //                    var user = new UserTable
+            //                    {
+            //                        UserId = reader.GetInt32(0),
+            //                        UserName = reader.IsDBNull(1) ? null : reader.GetString(1),
+            //                        UserSex = reader.IsDBNull(2) ? null : reader.GetString(2),
+            //                        UserBirthDay = reader.IsDBNull(3) ? (DateTime?)null : reader.GetDateTime(3),
+            //                        UserMobilePhone = reader.IsDBNull(4) ? null : reader.GetString(4)
+            //                    };
+            //                    ListAll.Add(user);
+            //                }
+            //            }
             ////*** 查詢結果 ListAll 是一個 IQueryable ***
             ////if (ListAll == null) // 查無資料時，無法正確運作。因為 IQueryable<T>會傳回一個「空集合」而不是「空（null）。所以這段if辨別不了」
             if (ListAll.Any() == false)  // 可運作
