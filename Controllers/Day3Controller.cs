@@ -562,7 +562,7 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
         //===================================
         public ActionResult IndexPage(int _ID = 1)   // _ID變數，目前位於第幾頁（目前頁數）？為了避免有人不輸入，所以預設為1
         {
-            // PageSize變數，每一頁，要展示幾筆記錄？
+            // PageSize變數，每一頁，要展示幾筆記錄？(可記錄於設定檔中 EX: appsettings.json)
             int PageSize = 3;
             // NowPageCount，目前正在觀賞這一頁的紀錄。目前正在第幾頁？
             int NowPageCount = 0;
@@ -575,6 +575,44 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                            orderby _userTable.UserId   // 若寫 descending ，則是反排序（由大到小）
                            select _userTable).Skip(NowPageCount).Take(PageSize);
             // .Skip() 從哪裡開始（忽略前面幾筆記錄）。 .Take()呈現幾筆記錄
+            //    // ADO NET MYSQL範例
+            //    var ListAll = new List<UserTable>();
+            //    string connectionString = "YourMySQLConnectionStringHere"; // 請替換為實際的 MySQL 連接字串
+            ////計算符合條件的記錄總數
+            //int recordCount = 0;
+            //string countQuery = "SELECT COUNT(*) FROM UserTables";
+            //using (MySqlConnection countConnection = new MySqlConnection(connectionString))
+            //{
+            //    MySqlCommand countCommand = new MySqlCommand(countQuery, countConnection);
+            //    countConnection.Open();
+            //    recordCount = Convert.ToInt32(countCommand.ExecuteScalar());
+            //}
+            //// 查詢符合條件的記錄
+            //    string query = @"
+            //SELECT UserId, UserName, UserSex, UserBirthDay, UserMobilePhone
+            //FROM UserTables
+            //ORDER BY UserId
+            //LIMIT @PageSize OFFSET @NowPageCount";
+            //    using (MySqlConnection connection = new MySqlConnection(connectionString))
+            //    {
+            //        MySqlCommand command = new MySqlCommand(query, connection);
+            //        command.Parameters.AddWithValue("@NowPageCount", NowPageCount);
+            //        command.Parameters.AddWithValue("@PageSize", PageSize);
+            //        connection.Open();
+            //        using MySqlDataReader reader = command.ExecuteReader();
+            //        while (reader.Read())
+            //        {
+            //            var user = new UserTable
+            //            {
+            //                UserId = reader.GetInt32(0),
+            //                UserName = reader.IsDBNull(1) ? null : reader.GetString(1),
+            //                UserSex = reader.IsDBNull(2) ? null : reader.GetString(2),
+            //                UserBirthDay = reader.IsDBNull(3) ? (DateTime?)null : reader.GetDateTime(3),
+            //                UserMobilePhone = reader.IsDBNull(4) ? null : reader.GetString(4)
+            //            };
+            //            ListAll.Add(user);
+            //        }
+            //    }
             //*** 查詢結果 ListAll 是一個 IQueryable ***
             //if (ListAll == null) // 查無資料時，無法正確運作。因為 IQueryable<T>會傳回一個「空集合」而不是「空（null）。所以這段if辨別不了」
             if (ListAll.Any() == false)  // 可運作
@@ -630,6 +668,7 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
                 {
                     Pages = (RecordCount / PageSize);   //   ( / )除法。傳回整數
                 }
+                // StringBuilder 應用情境為：需要大量的字串處理時，例如字串的長短不一(時長時短),且數量龐大(5000,10k筆以上)。越複雜越大量的字串處理，StringBuilder的效能優勢越明顯。
                 System.Text.StringBuilder sbPageList = new System.Text.StringBuilder();
                 //===== 分頁功能（上一頁 / 下一頁）======== start ==
                 #region
