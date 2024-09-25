@@ -1,49 +1,49 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;     // ½Ğ¦Û¤v¤â°Ê¦w¸ËNuGet -- ConfigurationBuilder·|¥Î¨ì³o­Ó©R¦WªÅ¶¡
+using Microsoft.Extensions.Configuration;     // è«‹è‡ªå·±æ‰‹å‹•å®‰è£NuGet -- ConfigurationBuilderæœƒç”¨åˆ°é€™å€‹å‘½åç©ºé–“
 using Microsoft.Extensions.DependencyInjection;
-using WebApplication2022_NetCore8_MVC.Models;  // ½Ğ¦Û¤v¤â°Ê¥[¤J³o­Ó©R¦WªÅ¶¡¡C
+using WebApplication2022_NetCore8_MVC.Models;  // è«‹è‡ªå·±æ‰‹å‹•åŠ å…¥é€™å€‹å‘½åç©ºé–“ã€‚
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-// ¦Û¤v°Ê¤â¥[¤Jªº¬q¸¨  (DI)
+// è‡ªå·±å‹•æ‰‹åŠ å…¥çš„æ®µè½  (DI)
 #region
-//**** Åª¨ú appsettings.json ³]©wÀÉ¸Ì­±ªº¸ê®Æ¡]¸ê®Æ®w³sµ²¦r¦ê¡^****
-////§@ªk¤@¡G
+//**** è®€å– appsettings.json è¨­å®šæª”è£¡é¢çš„è³‡æ–™ï¼ˆè³‡æ–™åº«é€£çµå­—ä¸²ï¼‰****
+////ä½œæ³•ä¸€ï¼š
 //builder.Services.AddDbContext<MvcUserDbContext>(options => options.UseSqlServer("Server=.\\sqlexpress;Database=MVC_UserDB;Trusted_Connection=True;TrustServerCertificate=true;MultipleActiveResultSets=true"));
-//// ³o¸Ì»İ­n·s¼W¨â­Ó©R¦WªÅ¶¡¡A½Ğ¨Ï¥Î¡uÅã¥Ü¥i¯àªº­×¥¿¡vÅı¨t²Î¦Û¤v¥[¤W¡C
-////§@ªk¤G¡G Åª¨ú³]©wÀÉªº¤º®e
-//// ¸ê®Æ¨Ó·½  µ{¦¡½X  https://github.com/CuriousDrive/EFCore.AllDatabasesConsidered/blob/main/MS%20SQL%20Server/Northwind.MSSQL/Program.cs
+//// é€™è£¡éœ€è¦æ–°å¢å…©å€‹å‘½åç©ºé–“ï¼Œè«‹ä½¿ç”¨ã€Œé¡¯ç¤ºå¯èƒ½çš„ä¿®æ­£ã€è®“ç³»çµ±è‡ªå·±åŠ ä¸Šã€‚
+////ä½œæ³•äºŒï¼š è®€å–è¨­å®šæª”çš„å…§å®¹
+//// è³‡æ–™ä¾†æº  ç¨‹å¼ç¢¼  https://github.com/CuriousDrive/EFCore.AllDatabasesConsidered/blob/main/MS%20SQL%20Server/Northwind.MSSQL/Program.cs
 builder.Services.AddDbContext<MvcUserDbContext>(
         options =>
         {
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
         });
-////§@ªk¤T¡G Åª¨ú³]©wÀÉªº¤º®e
-////****  ¸ê®Æ®w³sµ²¦r¦ê **** Åª¨ú appsettings.json ³]©wÀÉ¸Ì­±ªº¸ê®Æ¡]¸ê®Æ®w³sµ²¦r¦ê¡^****
-//// (3-A) ¥i¹B§@
+////ä½œæ³•ä¸‰ï¼š è®€å–è¨­å®šæª”çš„å…§å®¹
+////****  è³‡æ–™åº«é€£çµå­—ä¸² **** è®€å– appsettings.json è¨­å®šæª”è£¡é¢çš„è³‡æ–™ï¼ˆè³‡æ–™åº«é€£çµå­—ä¸²ï¼‰****
+//// (3-A) å¯é‹ä½œ
 //var configurationBuilder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
-//IConfiguration config = configurationBuilder.Build();   // ConfigurationBuilder·|¥Î¨ì Microsoft.Extensions.Configuration©R¦WªÅ¶¡
-//builder.Services.AddDbContext<MVC_UserDB2Context>(options => options.UseSqlServer(config["ConnectionStrings:DefaultConnection"]));  // appsettings.josnÀÉ¸Ì­±ªº¡u¸ê®Æ®w³sµ²¦r¦ê¡v
-//// (3-B) ¥i¹B§@
-//IConfiguration config = builder.Configuration;   // ConfigurationBuilder·|¥Î¨ì Microsoft.Extensions.Configuration©R¦WªÅ¶¡
-//builder.Services.AddDbContext<MVC_UserDB2Context>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));  // appsettings.josnÀÉ¸Ì­±ªº¡u¸ê®Æ®w³sµ²¦r¦ê¡v
+//IConfiguration config = configurationBuilder.Build();   // ConfigurationBuilderæœƒç”¨åˆ° Microsoft.Extensions.Configurationå‘½åç©ºé–“
+//builder.Services.AddDbContext<MVC_UserDB2Context>(options => options.UseSqlServer(config["ConnectionStrings:DefaultConnection"]));  // appsettings.josnæª”è£¡é¢çš„ã€Œè³‡æ–™åº«é€£çµå­—ä¸²ã€
+//// (3-B) å¯é‹ä½œ
+//IConfiguration config = builder.Configuration;   // ConfigurationBuilderæœƒç”¨åˆ° Microsoft.Extensions.Configurationå‘½åç©ºé–“
+//builder.Services.AddDbContext<MVC_UserDB2Context>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));  // appsettings.josnæª”è£¡é¢çš„ã€Œè³‡æ–™åº«é€£çµå­—ä¸²ã€
 //======================
-//¨Ï¥Î§¹¦¨¡A·|"¦Û°Ê"Ãö³¬¸ê®Æ®w³s½u¡C https://docs.microsoft.com/zh-tw/aspnet/core/data/ef-mvc/crud?view=aspnetcore-5.0
+//ä½¿ç”¨å®Œæˆï¼Œæœƒ"è‡ªå‹•"é—œé–‰è³‡æ–™åº«é€£ç·šã€‚ https://docs.microsoft.com/zh-tw/aspnet/core/data/ef-mvc/crud?view=aspnetcore-5.0
 //======================
-// ±z·|©I¥s .AddDbContext() ÂX¥R¤èªk ¨Ó¦b ASP.NET Core DI ®e¾¹¤¤§G«Ø DbContext Ãş§O¡C
-// ®Ú¾Ú¹w³]¡A¸Ó¤èªk·|±NªA°È¦s¯d´Á³]©w¬° Scoped¡C
-// Scoped ªí¥Ü¤º®eª«¥óªº¦s¯d´Á·|»P Web ­n¨Dªº¦s¯d´Á«O«ù¤@­P¡A¨Ã¥B¦b Web ­n¨Dµ²§ô®É·|¦Û°Ê©I¥s Dispose ¤èªk¡C
+// æ‚¨æœƒå‘¼å« .AddDbContext() æ“´å……æ–¹æ³• ä¾†åœ¨ ASP.NET Core DI å®¹å™¨ä¸­ä½ˆå»º DbContext é¡åˆ¥ã€‚
+// æ ¹æ“šé è¨­ï¼Œè©²æ–¹æ³•æœƒå°‡æœå‹™å­˜ç•™æœŸè¨­å®šç‚º Scopedã€‚
+// Scoped è¡¨ç¤ºå…§å®¹ç‰©ä»¶çš„å­˜ç•™æœŸæœƒèˆ‡ Web è¦æ±‚çš„å­˜ç•™æœŸä¿æŒä¸€è‡´ï¼Œä¸¦ä¸”åœ¨ Web è¦æ±‚çµæŸæ™‚æœƒè‡ªå‹•å‘¼å« Dispose æ–¹æ³•ã€‚
 //********************************************************************
-//**** Åª¨ú appsettings.json ³]©wÀÉ¸Ì­±ªº¸ê®Æ¡]¸ê®Æ®w³sµ²¦r¦ê¡^for ADO.NET¨Ï¥Î¨Ãª`¤JDI ****
-// Åª¨ú appsettings.json ³]©wÀÉ¸Ì­±ªº¸ê®Æ¡]¸ê®Æ®w³sµ²¦r¦ê¡^
+//**** è®€å– appsettings.json è¨­å®šæª”è£¡é¢çš„è³‡æ–™ï¼ˆè³‡æ–™åº«é€£çµå­—ä¸²ï¼‰for ADO.NETä½¿ç”¨ä¸¦æ³¨å…¥DI ****
+// è®€å– appsettings.json è¨­å®šæª”è£¡é¢çš„è³‡æ–™ï¼ˆè³‡æ–™åº«é€£çµå­—ä¸²ï¼‰
 IConfiguration config = builder.Configuration;
 string connectionString = config.GetConnectionString("DefaultConnection");
-// ±N³s½u¦r¦êª`¤J DI ®e¾¹
+// å°‡é€£ç·šå­—ä¸²æ³¨å…¥ DI å®¹å™¨
 builder.Services.AddSingleton(connectionString);
 //********************************************************************
 #endregion
-//==== ¤À ¹j ½u =============================
+//==== åˆ† éš” ç·š =============================
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
