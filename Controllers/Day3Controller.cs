@@ -804,7 +804,7 @@ namespace WebApplication2022_NetCore8_MVC.Controllers
             //SELECT UserId, UserName, UserSex, UserBirthDay, UserMobilePhone
             //FROM UserTables
             //ORDER BY UserId
-            //LIMIT @PageSize OFFSET @NowPageCount";
+            //LIMIT @PageSize OFFSET @NowPageCount"; //跳掉NowPageCount的紀錄數量,只取PageSize筆數的資料
             //    using (MySqlConnection connection = new MySqlConnection(connectionString))
             //    {
             //        MySqlCommand command = new MySqlCommand(query, connection);
